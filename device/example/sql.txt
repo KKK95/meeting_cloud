@@ -1,0 +1,21 @@
+SELECT gl.group_name, gl.group_id
+FROM group_leader as gl, group_member as gm
+where gm.member_id = 'emaa' or gl.leader_id = 'emaa'
+
+
+select m.id, m.name 
+from group_member as gm, member as m, group_leader as gl
+where 
+gm.group_id = '2'
+and (gm.member_id = m.id or gl.member_id = m.id)
+and gl.group_id = gm.group_id
+
+
+
+select gm.group_id, gl.group_name 
+from group_member as gm, group_leader as gl, member as m
+where 
+(gm.group_id = '2' or gl.group_id = '2')
+and 
+(m.id = gl.leader_id or m.id = gm.member_id)
+group by m.id

@@ -1,0 +1,40 @@
+	$json = array
+	(
+		"contents" => array			//contents裏面的東西如果   沒有 "obj_" 當字首, 他必定是一個 string
+		(
+			"name" => "value",
+			"name2" => "value",
+			"obj_a" => array		//contents裏面的東西         有 "obj_" 當字首, 他必定是一個 object, 而且裏面全都是 array
+			(
+				"name" => array()
+			)
+		),
+		"link" => array				//link裏面的東西如果   沒有 "obj_" 當字首, 他必定是一個 string
+		(
+			"a" => "test",
+			"obj_b" => array		//link裏面的東西         有 "obj_" 當字首, 他必定是一個 object, 而且裏面全都是 array
+			(
+				"0" => array ("tom","marry","petter"),
+				"del" => array ("del_tom","del_marry","del_petter"),
+				"talk" => array ("talk_tom","talk_marry","talk_petter")
+			)
+		),
+
+		"form" => array				//form 裏面的東西全是object 
+		(
+			"login" => array 
+			(
+				"func" => "登入",		//func 是描述這form 的功能
+				"addr" => "login.php",	//addr 是表明這form 該送去哪一個網址
+				"form" => array			//而form 是一個object, 裏面都是表格中的欄位
+				(
+					"id" => "none",		//none 表明沒東西
+					"pw" => "none"		//如果是none 以外的字串, 那他就是預設的資料
+				)
+			)
+		),	
+		"state" => array			//目前計設是裏面全都是字串, 沒有object, 裏面放的都是指令
+		{
+			
+		}
+	);
