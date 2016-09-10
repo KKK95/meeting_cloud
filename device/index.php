@@ -21,7 +21,7 @@
 					"pw" => "none"
 				)
 			)
-		),
+		)
 	);
 	
 	echo json_encode( $json );
