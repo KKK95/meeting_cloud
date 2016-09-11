@@ -20,11 +20,6 @@
 	$json = array
 	(
 		"link" => array(),
-		"state" => array
-		(
-			"hello" => "bye~",
-			"hi"	=> "fu"
-		)
 	);
 	
 	$num_rows = $result->num_rows;	
@@ -34,15 +29,15 @@
 	{
 		$state = "目前關於你的群組";
 		$json['link']['obj_group'] = array();
-		$json['link']['obj_group']['group_name'] = array();
+		$json['link']['obj_group']['0group_name'] = array();
 		$json['link']['obj_group']['查看'] = array();
 		//$json['link']['obj_group']['drop_out_group'] = array();
 		
 		for($i=1;$i<=$num_rows;$i++) 
 		{
 			$row=$result->fetch_array();				//rs 在這裏, fetch_assoc 的 index 只能用字串, 而 fetch_array 能用數字和字串作 index
-			array_push( $json['link']['obj_group']['group_name'], $row['group_name']);
-			array_push( $json['link']['obj_group']['link'], "group.php?group_id=".$row['group_id']);
+			array_push( $json['link']['obj_group']['0group_name'], $row['group_name']);
+			array_push( $json['link']['obj_group']['查看'], "group.php?group_id=".$row['group_id']);
 		//	array_push( $json['link']['group']['del'], "group.php?group_id=".$row['id']);
 			//		這裏可以加東西
 		}

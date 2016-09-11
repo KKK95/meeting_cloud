@@ -31,21 +31,17 @@
 	
 	$json = array
 	(
-		"content" => array
-		(
-//			"leader_name" => $leader_name,
-//			"leader_id" => $leader_id,
-//			"member_name_id" => array ()
-		),
+
 		"link" => array
 		(	
-			"my_upload_space" => "upload_space.php?basic_path=".$_SESSION["id"]."&path=".$_GET['group_id'],
-			"group_upload_space" => "group_upload_space.php?basic_path=".$_GET['group_id']."&path=none",
-			"group_manager" => array()
+			"我的雲端空間" => "my_upload_space.php?basic_path=user_upload_space/".$_SESSION["id"],
+			"群組雲端空間" => "group_upload_space.php?basic_path=group_upload_space&path=".$_GET['group_id'],
+			"群組聊天室" => "group_chat_room.php?group_id=".$_GET['group_id']."&msg_volume=0",
+			"obj_group_manager" => array()
 		),
 		"form" => array
 		(
-			array 
+			"新增成員" => array 
 			(
 				"func" => "新增會員到此群組",
 				"addr" => "back_end/add_member_to_group.php",
@@ -55,7 +51,7 @@
 					"member_id" => "none"
 				)
 			),
-			array
+			"會議開始" => array
 			(
 				"func" => "會議開始",
 				"addr" => "back_end/em_meeting_start.php",
@@ -67,7 +63,7 @@
 				)
 			)
 		),	
-		"state" => array()
+
 	);
 	$num_rows = $result->num_rows;	
 	if ($num_rows==1)
@@ -75,24 +71,24 @@
 	else
 	{	
 		//$json['link']['會議開始'] => "em_meeting_start_form.php?group_id=".$_GET['group_id'];
-		$json['link']['group_manager']['member'] = array();
-		$json['link']['group_manager']['member_id'] = array();
+		$json['link']['obj_group_manager']['member'] = array();
+		$json['link']['obj_group_manager']['member_id'] = array();
 		if ($leader_id == $_SESSION["id"])
 		{
-			$json['link']['group_manager']['del_member'] = array();
+			$json['link']['obj_group_manager']['del_member'] = array();
 		}
 		$state = "有群組成員";
 		for($i=1;$i<=$num_rows;$i++)
 		{
 			$row=$result->fetch_array();				//rs 在這裏, fetch_assoc 的 index 只能用字串, 而 fetch_array 能用數字和字串作 index
 
-			array_push( $json ['link']['group_manager']['member'], $row['name']);
-			array_push( $json ['link']['group_manager']['member_id'], $row['id'] );
+			array_push( $json ['link']['obj_group_manager']['member'], $row['name']);
+			array_push( $json ['link']['obj_group_manager']['member_id'], $row['id'] );
 			
 			
 			if ($leader_id == $_SESSION["id"] && $leader_id != $row['id'])			//如果是leader, 就會擁有刪除成員的link
 			{
-				array_push( $json['link']['group_manager']['del_member'], "back_end/del_group_member.php?member_id=".$row['id']."&group_id=".$_GET['group_id'] );
+				array_push( $json['link']['obj_group_manager']['del_member'], "back_end/del_group_member.php?member_id=".$row['id']."&group_id=".$_GET['group_id'] );
 			}
 			
 		}

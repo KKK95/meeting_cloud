@@ -14,8 +14,9 @@
 		"link" => array
 		(
 			"新增群組" => "build_group_form.php",
-			"查看群組會議" => "em_view_group_list.php",
-			"個人上傳空間" => "my_upload_space.php?basic_path=user_upload_space/".$_SESSION["id"],
+			"查看群組列表" => "em_view_group_list.php",
+			"我的雲端空間" => "my_upload_space.php?basic_path=user_upload_space/".$_SESSION["id"],
+			"群組雲端空間" => "group_upload_space_center.php?basic_path=group_upload_space",
 			"登出系統" => "back_end/logout.php"
 		),
 	);

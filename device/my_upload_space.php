@@ -22,7 +22,7 @@
 		(
 			"link" => array
 			(	
-				"共享空間" => "group_upload_space.php?basic_path=none",
+				"群組雲端空間" => "group_upload_space.php?basic_path=group_upload_space/",
 				"上傳檔案" => "back_end/upload.php?upload_path=".$path
 			),
 			"form" => array
@@ -58,7 +58,6 @@
 					
 					if ( strstr($file, '.') )
 					{
-						echo stristr($file, '.');
 						if( $first_file == 0 )
 						{
 							$first_file = 1;
@@ -69,7 +68,7 @@
 						}
 						array_push( $json ['link']['obj_file_manager']['0'], $file);
 						array_push( $json ['link']['obj_file_manager']['download'], "back_end/download.php?download_path=".$path."&file_name=".$file);
-						array_push( $json ['link']['obj_file_manager']['del_file'], "back_end/del_file.php?path=".$path."&file_name=".$file);
+						array_push( $json ['link']['obj_file_manager']['del_file'], "back_end/del_file.php?basic_path=".$path."&file_name=".$file);
 					
 					}
 					else											//沒點就是目錄
@@ -87,7 +86,7 @@
 						array_push( $json ['link']['obj_dir_manager']['0'], $file);
 						array_push( $json ['link']['obj_dir_manager']['dir_entry'], "my_upload_space.php?basic_path=".$path."&path=".$file);
 						array_push( $json ['link']['obj_dir_manager']['download'], "back_end/download.php?download_path=".$path."&file_name=".$file);
-						array_push( $json ['link']['obj_dir_manager']['del_file'], "back_end/del_file.php?path=".$path."&file_name=".$file);
+						array_push( $json ['link']['obj_dir_manager']['del_file'], "back_end/del_file.php?basic_path=".$path."&file_name=".$file);
 					}
 				}
 			}
