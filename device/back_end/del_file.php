@@ -14,10 +14,20 @@
 		{
 			$path = $path.$_GET['basic_path']."/".$_GET['file_name'];
 			
-			if(file_exists($path))
-			{	unlink($path);	}	//將檔案刪除
-			else
-			{	echo"檔案不存在"	}
+			if ( strstr($_GET['file_name'], '.') )		//它是一個檔案
+			{
+				if(file_exists($path))
+				{	unlink($path);	}	//將檔案刪除
+				else
+				{	echo"檔案不存在";	}
+			}
+			else										//否則是一個目錄
+			{
+				if (is_dir($path))
+				{	rmdir($path);	}	//將檔案刪除
+				else
+				{	echo"目錄不存在";	}
+			}
 		}
 		
 		if ( false !== ($rst = strpos($_GET['basic_path'], "user_upload_space")) )		//在我的空間

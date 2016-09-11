@@ -29,7 +29,7 @@
 	
 	$group_id = $row['group_id'];
 	
-	$file = "../upload_space\\".$group_id;
+	$file = "../group_upload_space/".$group_id;
 	
 	mkdir($file);
 	
