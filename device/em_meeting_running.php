@@ -8,13 +8,30 @@
 	require_once("../connMysql.php");			//引用connMysql.php 來連接資料庫
 	
 	require_once("back_end/login_check.php");
-	$sql = "select s_r_n.ip from server_running_now as s_r_n, group_meeting_now as g_m_n where 
+	
+	//====================================從server_running_now 中找出ip, group_id=======================================
+	$sql = "select s_r_n.ip, s_r_n.group_id from server_running_now as s_r_n, group_meeting_now as g_m_n where 
 			s_r_n.server_id = g_m_n.server_id and g_m_n.member_id = '".$_SESSION["id"]."'";
 
 	$result = $conn->query($sql);
 	$row=$result->fetch_array();
 	$server_ip = $row['ip'];
+	$group_id = $row['group_id'];
+	//==================================================================================================================
 	
+	//================================================找出record_id=====================================================
+	
+			//	取得本次 record_id
+	$sql = "select record.*, member.name from meeting_record as record where 
+			group_id = '".$group_id."' order by send_time";
+	
+	$result=$conn->query($sql);
+	$row=$result->fetch_array();
+	$record_id = $row['record_id'];
+	
+	
+	//==================================================================================================================
+	//json 裏面有server ip, 顯示會議記錄, 送出會議對話, 退出會議
 	$em_meeting_end = array
 	(
 		"contents" => array
@@ -24,13 +41,49 @@
 		"link" => array
 		(
 			"meeting_end" => "back_end/em_meeting_end.php"
-		)
+		),
+		"form" => array
+		(
+			"send_msg" => array
+			(
+				"func" => "發送訊息",
+				"addr" => "back_end/group_meeting_record.php?record_id=".$record_id,
+				"form" => array
+				(	"msg" => "none"	)
+			),
+		),
 		"state" =>array
 		(
 			"command" => "connect to local server"
 		)
 	);
 	
+	//==================================================================================================================
 	
-	
+	//顯示會議記錄
+		$json['content']['obj_meeting_record'] = array();
+		$json['content']['obj_meeting_record']['0'] = array();
+		$json['content']['obj_meeting_record']['time'] = array();
+		$json['content']['obj_meeting_record']['msg'] = array();
+		
+			$get_msg = 20;
+			$msg_volume = 0;
+			
+			$sql = "select record.*, member.name from group_meeting_record as record, member where 
+			record_id = '".$record_id."' and record.member_id = member.id
+			order by send_time
+			Limit ".$msg_volume.",".$get_msg;
+		
+		$result=$conn->query($sql);
+		$num_rows = $result->num_rows;
+		
+		for($i=1; $i<=$num_rows; $i++)
+		{
+			$row=$result->fetch_array();
+			array_push( $json ['content']['obj_meeting_record']['0'], $row['name'] );
+			array_push( $json ['content']['obj_meeting_record']['time'], $row['send_time'] );
+			array_push( $json ['content']['obj_meeting_record']['msg'], $row['msg'] );
+		}
+		
+		echo json_encode( $json );
 ?>
