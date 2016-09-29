@@ -68,16 +68,16 @@
 		
 		$attendance = $result->num_rows;		//已登錄會議主機人數
 		
-		$json['content']['obj_meeting_member'] = array();
-		$json['content']['obj_meeting_member']['0'] = array();
-		$json['content']['obj_meeting_member']['ip'] = array();
+		$json['content']['obj_meeting_member_list'] = array();
+		$json['content']['obj_meeting_member_list']['0'] = array();
+		$json['content']['obj_meeting_member_list']['ip'] = array();
 		
-		$json['content']['obj_meeting_member']['已簽到人數'] = $attendance;
+		$json['content']['obj_meeting_member_list']['已簽到人數'] = $attendance;
 		for($i=1; $i<=$attendance; $i++)
 		{
 			$row=$result->fetch_array();
-			array_push( $json ['content']['obj_meeting_member']['0'], $row['name'] );
-			array_push( $json ['content']['obj_meeting_member']['ip'], $row['ip'] );
+			array_push( $json ['content']['obj_meeting_member_list']['0'], $row['name'] );
+			array_push( $json ['content']['obj_meeting_member_list']['ip'], $row['ip'] );
 		}
 
 
