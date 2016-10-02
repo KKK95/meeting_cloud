@@ -12,15 +12,15 @@
 		
 		$msg = $_POST['msg'];
 		
-		$record_id = $_GET['group_id'];
+		$meeting_id = $_GET['meeting_id'];
 		
 		$member_id = $_SESSION["id"];
 		
-		if( isset($msg) && isset($group_id))
+		if( isset($msg) && isset($meeting_id))
 		{
 			if(!empty($msg))
 			{
-				$sql = "INSERT INTO group_meeting_record value('record_id','$member_id','$datetime','$msg')";
+				$sql = "INSERT INTO group_meeting_record value('$meeting_id','$member_id','$datetime','$msg')";
 				
 				if	($conn->query($sql))
 					echo "發送成功";
@@ -30,7 +30,7 @@
 		}
 		
 		if (false !== ($rst = strpos($member_id, "ls"))				//server 送的就回到server 頁面
-		header("Location: server_meeting_runngin.php"); 
+			header("Location: server_meeting_runngin.php"); 
 		else
-		header("Location: em_meeting_runngin.php"); 
+			header("Location: em_meeting_runngin.php"); 
 ?>

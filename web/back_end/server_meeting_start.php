@@ -13,7 +13,7 @@
 	$ip = $_POST["ip"];
 	
 	$sql = "INSERT INTO server_running_now (server_id, group_id, ip) 
-			VALUES ('".$_SESSION["id"]."', '".$no_values."', '".$ip."')";		//sql 查詢語法, 查詢後會把結果返回到 $sql
+			VALUES ('".$_SESSION["id"]."', '', '".$no_values."', '".$ip."')";		//sql 查詢語法, 查詢後會把結果返回到 $sql
 		
 	if($result = $conn->query($sql))
 	{
