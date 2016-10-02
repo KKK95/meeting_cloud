@@ -17,6 +17,19 @@
 	$leader_id = $row['leader_id'];
 	$leader_name = $row['name'];					//先抓出群組中的隊長
 	
+	//找出群組會議的時間
+	$sql = "select m_s.meeting_id, m_s.time, m_s.title		
+			from meeting_schedular as m_s
+			where 
+			m_s.group_id = '".$_GET['group_id']."'
+			order by m_s.time";
+			
+	$result=$conn->query($sql);
+	$meeting_time = $row['time'];
+	$meeting_id = $row['meeting_id'];
+	$meeting_title = $row['title'];
+	$today = date("Y-m-d H:i:s");
+	
 	$sql = "select m.id, m.name 
 			from group_member as gm, member as m, group_leader as gl
 			where 
@@ -51,17 +64,6 @@
 					"member_id" => "none"
 				)
 			),
-			"會議開始" => array
-			(
-				"func" => "會議開始",
-				"addr" => "back_end/em_meeting_start.php",
-				"form" => array
-				(
-					"local_server_id" => "none",
-					"group_id" => $_GET['group_id'],
-					"member_ip" => "none"
-				)
-			)
 		),	
 
 	);
@@ -70,7 +72,7 @@
 	{	$state = "";	}	
 	else
 	{	
-		//$json['link']['會議開始'] => "em_meeting_start_form.php?group_id=".$_GET['group_id'];
+
 		$json['link']['obj_group_manager']['member'] = array();
 		$json['link']['obj_group_manager']['member_id'] = array();
 		if ($leader_id == $_SESSION["id"])
@@ -91,6 +93,32 @@
 				array_push( $json['link']['obj_group_manager']['del_member'], "back_end/del_group_member.php?member_id=".$row['id']."&group_id=".$_GET['group_id'] );
 			}
 			
+		}
+		
+		//創立會議
+		$json['form']['創立會議'] = array();
+		$json['form']['會議開始']['func'] => "創立會議",
+		$json['form']['會議開始']['addr'] => "back_end/create_meeting_scheduler.php",
+		$json['form']['會議開始']['form'] = array
+			(
+				"group_id" => $_GET['group_id'],
+				"meeting_time" => "none",
+				"conference_sponsors_id" => "none",
+				"meeting_title" => "none"
+			);
+		
+		if (((strtotime($meeting_time) - strtotime($today))/ (60*60)) == 0)			//今天有會議要開才有會議開始讓你按
+		{
+			$json['form']['會議開始'] = array();
+			$json['form']['會議開始']['func'] => "會議開始",
+			$json['form']['會議開始']['title'] => $meeting_title,
+			$json['form']['會議開始']['addr'] => "back_end/em_meeting_start.php",
+			$json['form']['會議開始']['form'] = array
+			(
+				"local_server_id" => "none",
+				"meeting_id" => $meeting_id,
+				"member_ip" => "none"
+			);
 		}
 	}
 	
