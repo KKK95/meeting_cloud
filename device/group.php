@@ -48,8 +48,8 @@
 		"link" => array
 		(	
 			"我的雲端空間" => "my_upload_space.php?basic_path=user_upload_space/".$_SESSION["id"],
-			"群組雲端空間" => "group_upload_space.php?basic_path=group_upload_space&path=".$_GET['group_id'],
-			"群組聊天室" => "group_chat_room.php?group_id=".$_GET['group_id']."&msg_volume=0",
+			"會議群組雲端空間" => "group_upload_space.php?basic_path=group_upload_space&path=".$_GET['group_id'],
+			"會議群組聊天室" => "group_chat_room.php?group_id=".$_GET['group_id']."&msg_volume=0",
 			"obj_group_manager" => array()
 		),
 		"form" => array
@@ -103,7 +103,7 @@
 			(
 				"group_id" => $_GET['group_id'],
 				"meeting_time" => "none",
-				"conference_sponsors_id" => "none",
+				"create_meeting_member_id" => "none",
 				"meeting_title" => "none"
 			);
 		

@@ -13,7 +13,7 @@
 		(
 			"login" => array 
 			(
-				"func" => "登入",
+				"func" => "longin",
 				"addr" => "back_end/login.php",
 				"form" => array
 				(

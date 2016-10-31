@@ -10,7 +10,9 @@
 	require_once("back_end/login_check.php");
 	
 	//====================================從server_running_now 中找出ip, group_id=======================================
-	$sql = "select s_r_n.ip, s_r_n.group_id from server_running_now as s_r_n, group_meeting_now as g_m_n where 
+	$sql = "select s_r_n.ip, s_r_n.group_id 
+			from server_running_now as s_r_n, group_meeting_now as g_m_n 
+			where 
 			s_r_n.server_id = g_m_n.server_id and g_m_n.member_id = '".$_SESSION["id"]."'";
 
 	$result = $conn->query($sql);
@@ -19,15 +21,15 @@
 	$group_id = $row['group_id'];
 	//==================================================================================================================
 	
-	//================================================找出record_id=====================================================
+	//================================================找出meeting_id=====================================================
 	
-			//	取得本次 record_id
-	$sql = "select record.*, member.name from meeting_record as record where 
-			group_id = '".$group_id."' order by send_time";
+			//	取得本次 meeting_id
+	$sql = "select meeting_id from group_meeting_now where 
+			member_id = '".$_SESSION["id"]."'";
 	
 	$result=$conn->query($sql);
 	$row=$result->fetch_array();
-	$record_id = $row['record_id'];
+	$meeting_id = $row['meeting_id'];
 	
 	
 	//==================================================================================================================
@@ -47,7 +49,7 @@
 			"send_msg" => array
 			(
 				"func" => "發送訊息",
-				"addr" => "back_end/group_meeting_record.php?record_id=".$record_id,
+				"addr" => "back_end/group_meeting_record.php?meeting_id=".$meeting_id,
 				"form" => array
 				(	"msg" => "none"	)
 			),
@@ -66,8 +68,8 @@
 		$json['content']['obj_meeting_record']['time'] = array();
 		$json['content']['obj_meeting_record']['msg'] = array();
 		
-			$get_msg = 20;
-			$msg_volume = 0;
+			$get_msg = 20;				//取出幾句談話內容
+			$msg_volume = 0;			//從最新的記錄開始
 			
 			$sql = "select record.*, member.name from group_meeting_record as record, member where 
 			record_id = '".$record_id."' and record.member_id = member.id
